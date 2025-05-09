@@ -32,7 +32,21 @@ The **Weather Data Pipeline & Predictions** project is an ambitious initiative t
     ```
     pip install -r requirements.txt
     ```
-4. Run collect.py:
+4. (_Optional_) Start Virtual Environment instead of installing _requirements.txt_:
+
+| Shell               | Activation Command                     | Script Used              |
+|---------------------|-----------------------------------------|---------------------------|
+| **Command Prompt**  | `venv\Scripts\activate.bat`             | `activate.bat`            |
+| **PowerShell**      | `venv\Scripts\Activate.ps1`             | `Activate.ps1`            |
+| **Git Bash / WSL**  | `source venv/Scripts/activate`          | `activate` (Unix-style)   |
+
+> ⚠️ **PowerShell Note:** You may need to allow script execution:
+> Run PowerShell as Administrator and use:
+>
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+> ```
+6. Run collect.py:
     ```
     python -m collect.py
     ```
