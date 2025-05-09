@@ -16,6 +16,9 @@ The **Weather Data Pipeline & Predictions** project is an ambitious initiative t
 4. **Prediction Models**: Train and deploy machine learning models for forecasting.
 5. **Website Deployment**: Build and host a website to showcase the results.
 
+## 💾 Tech Used
+1. Python (Version 3.12.1)
+
 ## 📦 Installation
 1. Clone the repository:
     ```
