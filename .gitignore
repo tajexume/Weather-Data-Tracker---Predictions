@@ -1,5 +1,7 @@
 # Sensitive files and directories to ignore
 .env
+*__pycache__
+*.pyo
 *.key
 *.pem
 *.crt
@@ -7,3 +9,36 @@ secrets.json
 config/*.json
 credentials/
 api_tracker.json
+
+# Python-specific ignores
+*.pyc
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Test and coverage reports
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+htmlcov/
+
+# Temporary files
+*.tmp
+*.bak
+*.old
