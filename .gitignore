@@ -1,0 +1,9 @@
+# Sensitive files and directories to ignore
+.env
+*.key
+*.pem
+*.crt
+secrets.json
+config/*.json
+credentials/
+api_tracker.json
