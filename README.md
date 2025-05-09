@@ -29,11 +29,11 @@ The **Weather Data Pipeline & Predictions** project is an ambitious initiative t
     cd weather-data-pipeline
     ```
 3. Install dependencies:
-    ``
+    ```
     pip install -r requirements.txt
     ```
 4. Run collect.py:
-    ``
+    ```
     python -m collect.py
     ```
 
