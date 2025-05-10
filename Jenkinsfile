@@ -16,11 +16,14 @@ pip install -r requirements.txt
       }
     }
 
-    stage('Run Script') {
+    stage('Collect Weather Data') {
       steps {
-        sh '''source venv/bin/activate
-python your_script.py
-'''
+        sh '''. venv/bin/activate
+python3 -m weather_cli --city \'Tokyo\'
+python3 -m weather_cli --city \'Charlotte\'
+python3 -m weather_cli --city \'San Jose\'
+python3 -m weather_cli --city \'Los Angeles\'
+python3 -m weather_cli --city \'New York\''''
       }
     }
 
