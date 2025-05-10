@@ -9,7 +9,7 @@ pipeline {
 
     stage('Create VENV') {
       steps {
-        sh '''python3 -m venv venv
+        sh '''python -m venv venv
 sh venv/bin/activate
 pip install -r requirements.txt
 '''
