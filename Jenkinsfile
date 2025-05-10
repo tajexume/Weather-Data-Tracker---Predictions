@@ -10,7 +10,7 @@ pipeline {
     stage('Create VENV') {
       steps {
         sh '''python3 -m venv venv
-. venv/bin/activate
+bat venv/bin/activate.bat
 pip install -r requirements.txt
 '''
       }
@@ -18,7 +18,7 @@ pip install -r requirements.txt
 
     stage('Collect Weather Data') {
       steps {
-        sh '''. venv/bin/activate
+        sh '''bat venv/bin/activate.bat
 python3 -m weather_cli --city \'Tokyo\'
 python3 -m weather_cli --city \'Charlotte\'
 python3 -m weather_cli --city \'San Jose\'
