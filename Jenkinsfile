@@ -9,8 +9,8 @@ pipeline {
 
     stage('Create VENV') {
       steps {
-        powershell '.\\venv\\Scripts\\activate.ps1'
         powershell 'ls'
+        powershell '.\\venv\\Scripts\\activate.ps1'
       }
     }
 
