@@ -7,20 +7,11 @@ pipeline {
       }
     }
 
-    stage('Create VENV') {
-      parallel {
-        stage('Create VENV') {
-          steps {
-            powershell '.\\.venv\\Scripts\\Activate.ps1'
-          }
-        }
-
-        stage('runs script') {
-          steps {
-            powershell(script: '.\\utils\\run_script.ps1', returnStdout: true)
-          }
-        }
-
+    stage('runs script') {
+      steps {
+        powershell '.\\venv\\Scripts\\Activate.ps1'
+        powershell 'chmod 400 utils/run_script.ps1'
+        powershell(script: '.\\utils\\run_script.ps1', returnStdout: true)
       }
     }
 
