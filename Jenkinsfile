@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
         sh 'sh \'git https://github.com/tajexume/Weather-Data-Tracker---Predictions.git\''
       }
@@ -9,7 +9,7 @@ pipeline {
 
     stage('Create VENV') {
       steps {
-        sh ' sh \'python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt\''
+        sh ' sh \'ls || python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt\''
       }
     }
 
