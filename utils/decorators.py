@@ -5,8 +5,9 @@ from functools import wraps
 from datetime import datetime
 import os
 import json
+# Third Party
 
-TRACKER_FILE = "api_tracker.json"
+TRACKER_FILE = "logs/api_tracker.json"
 RateLimit = 1000
 
 def track_api_call(api_name):
@@ -45,5 +46,17 @@ def track_api_call(api_name):
                 json.dump(usage, f, indent=2)
 
             return output
+        return wrapper
+    return decorator
+
+
+def conversionLogger():
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            logger.info(f"Converting {args[0]} using {func.__name__}")
+            conversion = func(*args, **kwargs)
+            logger.debug(f"Converted value: {conversion}")
+            return conversion
         return wrapper
     return decorator
