@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('error') {
+    stage('Clone Repo') {
       steps {
         sh 'sh \'git https://github.com/tajexume/Weather-Data-Tracker---Predictions.git\''
       }
