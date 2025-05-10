@@ -15,9 +15,9 @@ pipeline {
           }
         }
 
-        stage('') {
+        stage('runs script') {
           steps {
-            powershell 'C:\\Python312\\python.exe'
+            powershell(script: '.\\utils\\run_script.ps1', returnStdout: true)
           }
         }
 
