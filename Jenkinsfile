@@ -9,10 +9,8 @@ pipeline {
 
     stage('Create VENV') {
       steps {
-        sh '''python3 -m venv venv
-bat venv/bin/activate.bat
-pip install -r requirements.txt
-'''
+        powershell '.\\venv\\Scripts\\activate.ps1'
+        powershell 'ls'
       }
     }
 
