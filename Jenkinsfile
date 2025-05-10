@@ -8,8 +8,19 @@ pipeline {
     }
 
     stage('Create VENV') {
-      steps {
-        powershell 'ls'
+      parallel {
+        stage('Create VENV') {
+          steps {
+            powershell '.\\.venv\\Scripts\\Activate.ps1'
+          }
+        }
+
+        stage('') {
+          steps {
+            powershell(script: 'python -m weather_cli --city \'Charlotte\'', returnStdout: true)
+          }
+        }
+
       }
     }
 
