@@ -5,6 +5,7 @@
 *.key
 *.pem
 *.crt
+*.db
 secrets.json
 config/*.json
 credentials/

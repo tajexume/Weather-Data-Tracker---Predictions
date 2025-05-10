@@ -33,13 +33,14 @@ def getCoordinates(city: str, limit=1, country: str = None):
                 # Extract latitude and longitude from the response
                 lat = geoInfo.json()[0]['lat']
                 lon = geoInfo.json()[0]['lon']
-                logger.debug(f"Coordinates for {city}: ({lat}, {lon})")
+                country = geoInfo.json()[0]['country']
+                logger.debug(f"Coordinates for {city}, {country}: ({lat}, {lon})")
                 return lat, lon
             else:
                 logger.error(f"Error fetching coordinates for {city}, {geoInfo.json()}: {geoInfo.status_code} - {geoInfo.text}")
                 return None, None
         except Exception as e:
-            logger.error(f"Exception occurred while fetching coordinates for {city}: {str(e)}")
+            logger.error(f"Exception occurred while fetching coordinates for {city}, {country}: {str(e)}")
             return None, None
     else:
         params = {
@@ -148,7 +149,7 @@ def addCurrentWeatherToDB(currentWeather: str):
 
     con = duckdb.connect(database='Weather Tracker.db')
     con.execute(f"""
-        CREATE TABLE IF NOT EXISTS '{city}' (
+        CREATE TABLE IF NOT EXISTS "{city}" (
             timestamp TIMESTAMP PRIMARY KEY,
             country TEXT,
             temperature REAL,
@@ -172,4 +173,60 @@ def addCurrentWeatherToDB(currentWeather: str):
         VALUES (CURRENT_TIMESTAMP, '{country}', {temp}, {temp_max}, {temp_min}, {humidity}, {pressure}, '{description}', {lat}, {lon}, '{sunrise}', '{sunset}', {wind_speed}, {sea_level}, {wind_deg}, {wind_gust})
     """)
     con.close()
+    
+
+def checkForNewCity(city: str, country:str, lat: float, lon: float):
+    con = duckdb.connect(database='Weather Tracker.db')
+
+    con.execute(f"""
+    CREATE TABLE IF NOT EXISTS {country} (
+        city TEXT UNIQUE,
+        latitude REAL,
+        longitude REAL
+    )
+""")
+
+    # Check if the city already exists in the country table
+    city_exists = con.execute(f"SELECT * FROM {country} WHERE city = ?", [city]).fetchall()
+
+    if not city_exists:
+        # Add the city with coordinates to the country table
+        con.execute(
+    f"""
+    INSERT INTO '{country}' (city, latitude, longitude)
+    VALUES (?, ?, ?)
+    """,
+    [city, lat, lon]
+)
+        logger.info(f"City {city} added to the {country} table.")
+    try:
+        result = con.execute(f"SELECT * FROM '{city}' LIMIT 1").fetchall()
+        if result:
+            logger.info(f"City {city} already exists in the database.")
+            return True
+        else:
+            logger.info(f"City {city} does not exist in the database.")
+            return False
+    except Exception as e:
+        logger.error(f"Exception occurred while checking for city {city}: {str(e)}")
+        return False
+    finally:
+        con.close()
+
+
+def getCoordinatesFromDB(country: str, city: str) -> tuple:
+    try:
+        con = duckdb.connect(database='Weather Tracker.db')
+        query = f"SELECT latitude, longitude FROM {country} WHERE city = ?"
+        result = con.execute(query, (city,)).fetchone()
+        con.close()
+
+        if result:
+            return result[0], result[1]
+        else:
+            logger.error(f"City {city} not found in the {country} table.")
+            return None, None
+    except Exception as e:
+        logger.error(f"Exception occurred while retrieving coordinates for {city} in {country}: {str(e)}")
+        return None, None
     

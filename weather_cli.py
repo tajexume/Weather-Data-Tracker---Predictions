@@ -7,7 +7,7 @@ def cli():
 
 @cli.command()
 @click.option('--city', help='City name')
-@click.option('--country', default='', help='Country code (default: US)')
+@click.option('--country', default='', help='Country code')
 @click.option('--latitude', '--lat', type=float, default=0.0, help='Latitude of the city')
 @click.option('--longitude', '--lon', type=float, default=0.0, help='Longitude of the city')
 def currentWeather(city, country, latitude, longitude):
