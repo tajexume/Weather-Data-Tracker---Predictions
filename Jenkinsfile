@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Clone Repo') {
       steps {
-        sh 'sh \'git https://github.com/tajexume/Weather-Data-Tracker---Predictions.git\''
+        git(url: 'https://github.com/tajexume/Weather-Data-Tracker---Predictions.git', branch: 'main')
       }
     }
 
