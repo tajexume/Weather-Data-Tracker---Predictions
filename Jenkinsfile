@@ -10,7 +10,6 @@ pipeline {
     stage('runs script') {
       steps {
         powershell '.\\.venv\\Scripts\\Activate.ps1'
-        powershell 'chmod 400 utils/run_script.ps1'
         powershell(script: '.\\utils\\run_script.ps1', returnStdout: true)
       }
     }
