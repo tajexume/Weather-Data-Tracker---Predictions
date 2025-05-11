@@ -16,6 +16,6 @@ pipeline {
 
   }
   environment {
-    python3 = '":\\Python312\\python.exe'
+    python3 = '"C:\\Python312\\python.exe'
   }
 }
