@@ -7,22 +7,15 @@ pipeline {
       }
     }
 
-    stage('Create VENV') {
+    stage('runs script') {
       steps {
-        sh '''python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-'''
+        powershell '.\\.venv\\Scripts\\Activate.ps1'
+        powershell(script: '.\\utils\\run_script.ps1', returnStdout: true)
       }
     }
 
-    stage('Run Script') {
-      steps {
-        sh '''source venv/bin/activate
-python your_script.py
-'''
-      }
-    }
-
+  }
+  environment {
+    python3 = '":\\Python312\\python.exe'
   }
 }
