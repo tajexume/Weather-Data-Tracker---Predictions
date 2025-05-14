@@ -7,11 +7,13 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('error') {
       steps {
-        sh '''sh source .venv/Scripts/activate
-sh pip install -r requirements.txt
-sh python -m weather_cli --city \'San Jose\''''
+        sh '''sh \'\'\'
+source .venv/Scripts/activate
+pip install -r requirements.txt
+python -m weather_cli --city \'San Jose\'
+\'\'\''''
       }
     }
 
