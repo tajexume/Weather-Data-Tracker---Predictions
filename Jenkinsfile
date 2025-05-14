@@ -7,10 +7,11 @@ pipeline {
       }
     }
 
-    stage('runs script') {
+    stage('') {
       steps {
-        powershell '.\\.venv\\Scripts\\Activate.ps1'
-        powershell(script: '.\\utils\\run_script.ps1', returnStdout: true)
+        sh '''sh source .venv/Scripts/activate
+sh pip install -r requirements.txt
+sh python -m weather_cli --city \'San Jose\''''
       }
     }
 
