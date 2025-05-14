@@ -15,11 +15,4 @@ pipeline {
     }
 
   }
-  environment {
-<<<<<<< HEAD
-    python3 = '"C:\\Python312\\python.exe'
-=======
-    python3 = 'C:\\Python312\\python.exe'
->>>>>>> 11580eba10e2bcd8e12f0a8dde9c35c5ee2dc475
-  }
 }
