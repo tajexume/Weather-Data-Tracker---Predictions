@@ -9,7 +9,7 @@ pipeline {
 
     stage('error') {
       steps {
-        sh '''source .venv/Scripts/activate
+        sh '''. .venv/Scripts/activate
 pip install -r requirements.txt
 python -m weather_cli --city \'San Jose\''''
       }
