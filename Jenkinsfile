@@ -11,7 +11,7 @@ pipeline {
 
         stage('error') {
           steps {
-            sh 'cp "$weather_collector_secrets" .env'
+            sh 'cp $weather_collector_secrets .env'
           }
         }
 
