@@ -2,8 +2,19 @@ pipeline {
   agent any
   stages {
     stage('Clone Repo') {
-      steps {
-        git(url: 'https://github.com/tajexume/Weather-Data-Tracker---Predictions.git', branch: 'main')
+      parallel {
+        stage('Clone Repo') {
+          steps {
+            git(url: 'https://github.com/tajexume/Weather-Data-Tracker---Predictions.git', branch: 'main')
+          }
+        }
+
+        stage('') {
+          steps {
+            sh 'cp $weather_collector_secrets .env'
+          }
+        }
+
       }
     }
 
