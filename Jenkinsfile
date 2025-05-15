@@ -9,9 +9,9 @@ pipeline {
           }
         }
 
-        stage('') {
+        stage('error') {
           steps {
-            sh 'cp $weather_collector_secrets .env'
+            sh 'cp "$Weather collector Secrets" .env'
           }
         }
 
