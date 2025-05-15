@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh '''. .venv/Scripts/activate
 pip install -r requirements.txt
-python3 -m weather_cli currentWeather --city \'San Jose\''''
+python3 -m weather_cli currentweather --city \'San Jose\''''
       }
     }
 
