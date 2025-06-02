@@ -94,7 +94,6 @@ def addCurrentWeatherToDB(currentWeather: str):
     sunset = datetime(1970, 1, 1)
     wind_speed = 0
     wind_deg = 0
-    wind_gust = 0
     sea_level = 0
     
     weatherInfo = json.loads(currentWeather.replace("'", '"'))
@@ -136,12 +135,7 @@ def addCurrentWeatherToDB(currentWeather: str):
         wind_deg = weatherInfo['wind']['deg']
     except KeyError as e:
         logger.error(f"KeyError: {e} - {currentWeather}")
-
-    try:
-        wind_gust = weatherInfo['wind']['gust']
-    except KeyError as e:
-        logger.error(f"KeyError: {e} - {currentWeather}")
-
+    
     try:
         sea_level = weatherInfo['main']['sea_level']
     except KeyError as e:
@@ -165,12 +159,11 @@ def addCurrentWeatherToDB(currentWeather: str):
             wind_speed REAL,
             sea_level INTEGER,
             wind_deg INTEGER,
-            wind_gust REAL
         )
     """)
     con.execute(f"""
-        INSERT INTO '{city}' (timestamp, country, temperature, temp_max, temp_min, humidity, pressure, description, latitude, longitude, sunrise, sunset, wind_speed, sea_level, wind_deg, wind_gust)
-        VALUES (CURRENT_TIMESTAMP, '{country}', {temp}, {temp_max}, {temp_min}, {humidity}, {pressure}, '{description}', {lat}, {lon}, '{sunrise}', '{sunset}', {wind_speed}, {sea_level}, {wind_deg}, {wind_gust})
+        INSERT INTO '{city}' (timestamp, country, temperature, temp_max, temp_min, humidity, pressure, description, latitude, longitude, sunrise, sunset, wind_speed, sea_level, wind_deg)
+        VALUES (CURRENT_TIMESTAMP, '{country}', {temp}, {temp_max}, {temp_min}, {humidity}, {pressure}, '{description}', {lat}, {lon}, '{sunrise}', '{sunset}', {wind_speed}, {sea_level}, {wind_deg})
     """)
     con.close()
     
