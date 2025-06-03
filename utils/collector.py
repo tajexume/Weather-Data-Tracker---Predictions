@@ -9,6 +9,7 @@ from utils.conversions import *
 # Standard Library
 from pprint import pformat
 from datetime import datetime
+from datetime import date
 import json
 import os
 
@@ -17,8 +18,17 @@ weatherAPI = os.environ.get('weatherAPI')
 
 
 @track_api_call('Geocoding API')
-def getCoordinates(city: str, limit=1, country: str = None):
-    # Example API endpoint
+def getCoordinates(city: str, limit=1, country: str = '') -> tuple:
+    # Function to get coordinates of a city using OpenWeatherMap's Geocoding API
+    """
+    Get the latitude and longitude of a city using OpenWeatherMap's Geocoding API.
+    If the country is not provided, it will search for the city globally.
+    If the country is provided, it will search for the city within that country.
+    :param city: Name of the city to search for.
+    :param limit: Maximum number of results to return (default is 1).
+    :param country: Country code (optional).            
+    """
+
     url = "http://api.openweathermap.org/geo/1.0/direct"
     if not country:
         params = {
@@ -229,4 +239,35 @@ def getCoordinatesFromDB(country: str, city: str) -> tuple:
     except Exception as e:
         logger.error(f"Exception occurred while retrieving coordinates for {city} in {country}: {str(e)}")
         return None, None
-    
+
+
+@track_api_call('Weather API')
+def weatherForDate(city: str = '', lon: float = 0.0, lat: float = 0.0, weatherDate: date = date.today()):
+    url = 'https://api.openweathermap.org/data/3.0/onecall/day_summary'
+    if city:
+        lat, lon = getCoordinates(city) # type: ignore
+        if lat is None or lon is None:
+            logger.error(f"Could not retrieve coordinates for {city}.")
+            return None
+    elif not city and (lat == 0.0 or lon == 0.0):
+        logger.error("No city or coordinates provided.")
+        return None
+    params = {
+        'lat': lat,
+        'lon': lon,
+        'date': weatherDate.strftime('%Y-%m-%d'),
+        'appid': weatherAPI
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        if response.ok:
+            weather_data = response.json()
+            logger.info(f"Weather data for {city} on {weatherDate}: {weather_data}")
+            return weather_data
+        else:
+            logger.error(f"Error fetching weather data for {city} on {weatherDate}: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        logger.error(f"Exception occurred while fetching weather data for {city} on {weatherDate}: {str(e)}")
+        return None
